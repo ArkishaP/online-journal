@@ -13,10 +13,10 @@ function TextFieldGroup({
     type,
     onChange,
     disabled
-}) {
+})  {
     return (
         <div className="form-group">
-            <label for={name}>{text}</label>
+            <label htmlFor={name}>{text}</label>
             <input
                 id={name}
                 type={type}

@@ -3,8 +3,6 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport = require("passport");
-
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -54,7 +52,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ email: "User not found" });
+      return res.status(404).json({ email: "Email not found" });
     }
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -88,37 +86,22 @@ router.post("/login", (req, res) => {
   });
 });
 
-// router.get("/profile", (req, res) => {
-//   var decoded = jwt.verify(req.headers["authorization"]);
+router.get("/current", (req, res) => {
+  var decoded = jwt.verify(req.headers["authorization"]);
 
-//   User.findOne({
-//     _id: decoded._id
-//   });
+  User.findOne({
+    _id: decoded._id
+  });
 
-//   then(user => {
-//     if (user) {
-//       res.json(user);
-//     } else {
-//       res.send("user does not exist");
-//     }
-//   }).catch(err => {
-//     res.send("error: " + err);
-//   });
-// });
-
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-router.get(
-  "/profile",
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
-    })
-  }
-)
+  then(user => {
+    if (user) {
+      res.json(user);
+    } else {
+      res.send("user does not exist");
+    }
+  }).catch(err => {
+    res.send("error: " + err);
+  });
+});
 
 module.exports = router;

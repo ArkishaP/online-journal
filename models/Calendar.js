@@ -14,12 +14,21 @@ const CalendarSchema = new Schema({
     type: String,
     required: true
   },
-  from: {
+  start: {
     type: Date,
     default: Date.now
   },
-  to: {
-    type: Date
+  end: {
+    type: Date,
+    default: Date.now
+  },
+  allDay:{
+    type: Boolean,
+    default: false
+  },
+  created_date: {
+    type: Date,
+    default: Date.now
   }
 });
 module.exports = Calendar = mongoose.model("Calendar", CalendarSchema);

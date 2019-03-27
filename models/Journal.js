@@ -14,9 +14,12 @@ const JournalSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  create_date: {
     type: Date,
     default: Date.now
+  },
+  post_date: {
+    type: Date
   }
 });
 module.exports = Journal = mongoose.model("Journal", JournalSchema);

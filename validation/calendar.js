@@ -7,11 +7,15 @@ module.exports = function validateCalendarInput(data) {
   data.description = !isEmpty(data.description) ? data.description : "";
   // Title checks
   if (Validator.isEmpty(data.title)) {
-    errors.title = "no title";
+    errors.title = "Please enter title";
   }
-  // desc checks
+  // Description checks
   if (Validator.isEmpty(data.description)) {
-    errors.description = " ";
+    errors.description = "Please enter description";
+  }
+  // Date checks
+  if(Validator.isAfter(data.start.toString(),data.end.toString())){
+    errors.end = "Date is not valid"
   }
 
   return {

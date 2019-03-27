@@ -50,9 +50,9 @@ class Login extends React.Component {
   render() {
     const { errors } = this.state
     return (
-      <div className="row justify-content-md-center mt-5">
-        <form onSubmit={this.handleSubmit} className="col-md-6">
-          <h1 className="h3 mb-3 font-weight-normal text-center">Create a new Account</h1>
+      <div className="form-container container">
+        <h3 className="form-heading">Create a new Account</h3>
+        <form noValidate onSubmit={this.handleSubmit}>
           <TextFieldGroup
             type="email"
             placeholder="Enter Email"

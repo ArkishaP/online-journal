@@ -5,7 +5,10 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const users = require("./routes/api/users");
 const calendar = require("./routes/api/calendar");
-//const journal = require("./routes/api/journal");
+const journal = require("./routes/api/journal");
+const profile = require("./routes/api/profile");
+const expense = require("./routes/api/expense");
+const todo = require("./routes/api/todo");
 
 const app = express();
 
@@ -34,6 +37,9 @@ require("./config/passport")(passport);
 //use Routes
 app.use("/api/users", users);
 app.use("/api/calendar", calendar);
-//app.use("/api/journal", journal);
+app.use("/api/journal", journal);
+app.use("/api/profile", profile);
+app.use("/api/expense", expense);
+app.use("/api/todo", todo);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5000, () => console.log("server is running"));

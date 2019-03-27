@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import jwt_decode from "jwt-decode"
 import setAuthToken from "./utils/setAuthToken"
 import { setCurrentUser, logoutUser } from "./actions/authActions"
+import { clearCurrentProfile } from "./actions/profileActions"
 import { Provider } from "react-redux"
 import store from "./store"
+
+import PrivateRoute from "./components/common/PrivateRoute"
 
 import Navbar from "./components/layout/Navbar"
 import Landing from "./components/layout/Landing"
 import Register from "./components/auth/Register"
 import Login from "./components/auth/Login"
-import Calendar from "./components/dashboard/Calendar"
-import Timeline from "./components/dashboard/Timeline"
-import Journal from "./components/dashboard/Journal"
-import EditPost from "./components/journal/EditPost"
-import ViewPost from "./components/journal/ViewPost"
+
+import Calendar from "./components/calendar-component/Calendar"
+import AddEvent from "./components/calendar-component/AddEvent"
+import EditEvent from "./components/calendar-component/EditEvent"
+import ViewEvent from "./components/calendar-component/ViewEvent"
+
+import Timeline from "./components/timeline-component/Timeline"
+
+import Journal from "./components/journal-component/Journal"
+import ViewPost from "./components/journal-component/ViewPost"
+import AddPost from "./components/journal-component/AddPost"
+import EditPost from "./components/journal-component/EditPost"
+
+import Expense from "./components/expense-component/Expense"
+import AddTransaction from "./components/expense-component/AddTransaction"
+import ViewRecord from "./components/expense-component/ViewRecord"
+import EditRecord from "./components/expense-component/EditRecord"
+
+import Account from "./components/account/Account"
 
 import './App.css';
 
@@ -32,8 +49,8 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     // Logout user
     store.dispatch(logoutUser())
-    // TODO: Clear current Profile
-
+    //Clear current Profile
+    store.dispatch(clearCurrentProfile())
     // Redirect to login
     window.location.href = "/login"
 
@@ -51,13 +68,57 @@ class App extends Component {
             <div className="container-fluid">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/dashboard" component={Calendar} />
-              <Route exact path="/calendar" component={Calendar} />
-              <Route exact path="/timeline" component={Timeline} />
-              <Route exact path="/journal" component={Journal} />
-              <Route exact path="/journal/new" component={EditPost} />
-              <Route exact path="/journal/edit" component={EditPost} />
-              <Route exact path="/journal/view" component={ViewPost} />
+              <Switch>
+                <PrivateRoute exact path="/dashboard" component={Calendar} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/calendar" component={Calendar} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/calendar/new" component={AddEvent} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/calendar/edit/:event_id" component={EditEvent} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/calendar/view/:event_id" component={ViewEvent} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/journal" component={Journal} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/journal/view/:post_id" component={ViewPost} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/journal/edit/:post_id" component={EditPost} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/journal/new" component={AddPost} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/timeline" component={Timeline} />
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/expense-tracker" component={Expense} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/expense-tracker/new" component={AddTransaction} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/expense-tracker/view/:record_id" component={ViewRecord} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/expense-tracker/edit/:record_id" component={EditRecord} />
+              </Switch>
+
+              
+              <Switch>
+                <PrivateRoute exact path="/account" component={Account} />
+              </Switch>
+
             </div>
           </div>
         </Router>

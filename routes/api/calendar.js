@@ -8,14 +8,38 @@ const validateCalendarInput = require("../../validation/calendar");
 
 //Load calendar model
 const Calendar = require("../../models/Calendar");
+//Load profile model
+const Profile = require("../../models/Profile");
 //Load User model
 const User = require("../../models/User");
+
+//@route GET api/calendar
+//@desc  GET calendar events
+//@access Public
+
+router.get("/admin", (req, res) => {
+  Calendar.find()
+    .then(calendar => res.json(calendar))
+    .catch(err => res.status(404).json({ noeventfound: "noevents found." }));
+});
 
 //@route GET api/calendar/test
 //@desc Test calendar route
 //@access Public
 
 router.get("/test", (req, res) => res.json({ msg: "profile work" }));
+
+//@route GET api/calendar/:id
+//@desc  GET calendar by id
+//@access Public
+router.get("/:id", (req, res) => {
+  Calendar.findById(req.params.id)
+    .sort({ date: -1 })
+    .then(calendar => res.json(calendar))
+    .catch(err =>
+      res.status(404).json({ noeventfound: "noevent found with that id." })
+    );
+});
 
 //@route GET api/calendar
 //@desc  GET cuurent users calendar
@@ -26,14 +50,15 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
-
-    Calendar.findOne({ user: req.user.id }).then(calendar => {
-      if (!calendar) {
-        errors.nocalendar = "There is no events created by user.";
-        return res.status(404).json(errors);
-      }
-      res.json(calendar);
-    });
+    Calendar.find({ user: req.user.id })
+      .sort({ start: -1 })
+      .then(calendar => {
+        if (!calendar) {
+          errors.nocalendar = "There is no events created by user.";
+          return res.status(404).json(errors);
+        }
+        res.json(calendar);
+      });
   }
 );
 
@@ -43,7 +68,7 @@ router.get(
 
 router.get("/user/:user_id", (req, res) => {
   const errors = {};
-  Calendar.findOne({ user: req.params.user_id })
+  Calendar.find({ user: req.params.user_id })
     .then(calendar => {
       if (!calendar) {
         errors.nocalendar = "user does not created any event.";
@@ -73,38 +98,67 @@ router.post(
     calendarFields.user = req.user.id;
     if (req.body.title) calendarFields.title = req.body.title;
     if (req.body.description) calendarFields.description = req.body.description;
+    if (req.body.start) calendarFields.start = req.body.start;
+    if (req.body.end) calendarFields.end = req.body.end;
 
-    Calendar.findOne({ user: req.user.id }).then(calendar => {
-      if (calendar) {
-        //update
-        Calendar.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: calendarFields },
-          { new: true }
-        ).then(calendar => res.json(calendar));
-      } else {
-        //create
-        //save calendar event
-        new Calendar(calendarFields)
-          .save()
-          .then(calendar => res.json(calendar));
-      }
+    Calendar.find({ user: req.user.id }).then(calendar => {
+      //create
+      //save calendar event
+      new Calendar(calendarFields).save().then(calendar => res.json(calendar));
     });
   }
 );
 
-//@route Delete api/calendar
-//@desc Delete user and calendar
-//@access Private
-
-router.delete(
-  "/",
+// @route   Update api/calendar/:id
+// @desc    Update event
+// @access  Private
+router.put(
+  "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Calendar.findOneAndRemove({ user: user.req.id }).then(() => {
-      User.findOneAndRemove({ _id: req.user.id }).then(() => {
-        res.json({ success: true });
-      });
+    const { errors, isValid } = validateCalendarInput(req.body);
+    //check validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    //Get fields
+    const calendarFields = {};
+    calendarFields.user = req.user.id;
+    if (req.body.title) calendarFields.title = req.body.title;
+    if (req.body.description) calendarFields.description = req.body.description;
+    if (req.body.start) calendarFields.start = req.body.start;
+    if (req.body.end) calendarFields.end = req.body.end;
+
+    Calendar.findByIdAndUpdate(req.params.id, calendarFields).then(
+      calendarFields => res.json(calendarFields)
+    );
+  }
+);
+
+// @route   DELETE api/calendar/:id
+// @desc    Delete event
+// @access  Private
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      Calendar.findById(req.params.id)
+        .then(calendar => {
+          // Check for post owner
+          if (calendar.user.toString() !== req.user.id) {
+            return res
+              .status(401)
+              .json({ notauthorized: "User not authorized" });
+          }
+
+          // Delete
+          calendar.remove().then(() => res.json({ success: true }));
+        })
+        .catch(err =>
+          res.status(404).json({ enentnotfound: "No event found" })
+        );
     });
   }
 );
