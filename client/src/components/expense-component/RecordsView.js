@@ -84,7 +84,7 @@ class RecordsView extends Component {
         }
         return (
             <div>
-                <select name="month" value={this.state.month} onChange={this.handleChange}>
+                <select name="month" value={this.state.month} onChange={this.handleChange} className="btn btn-md btn-dark float-right">
                     <option value="01">January</option>
                     <option value="02">February</option>
                     <option value="03">March</option>

@@ -14,7 +14,7 @@ function InputGroup({
 
 
     return (
-        <div className="form-group col-md-4">
+        <div className="form-group col-md-6">
             <label htmlFor={id}>{label}</label>
             <span className="float-right"><i className="fas fa-calendar"></i></span>
             <input

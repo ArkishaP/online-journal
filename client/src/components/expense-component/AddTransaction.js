@@ -47,104 +47,106 @@ class AddTransaction extends Component {
     render() {
         const { errors } = this.state
         return (
-            <div className="form-container">
-                <h2 className="form-header">Create new Record</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label for="description">Description</label>
-                        <input
-                            type="text"
-                            name="description"
-                            className={classnames('form-control', {
-                                'is-invalid': errors.description
-                            })}
-                            id="description"
-                            placeholder="Enter a title"
-                            value={this.state.description}
-                            onChange={this.handleChange} />
-                        {errors.description && (<div className="invalid-feedback">{errors.description}</div>)}
-                    </div>
-                    <div className="row">
-                        <DateGroup
-                            id="date"
-                            label="Date"
-                            type="date"
-                            name="date"
-                            onChange={this.handleChange}
-                            value={this.state.date}
-
-                        />
-                        <div className="form-group col-md-4">
-                            <label for="amount">Amount</label>
+            <div className="row justify-content-center">
+                <div className="form-container col-md-6">
+                    <h2 className="form-heading">Create new Record</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label for="description">Description</label>
                             <input
-                                type="number"
-                                name="amount"
+                                type="text"
+                                name="description"
                                 className={classnames('form-control', {
-                                    'is-invalid': errors.amount
+                                    'is-invalid': errors.description
                                 })}
-                                id="amount"
-                                value={this.state.amount}
+                                id="description"
+                                placeholder="Enter a title"
+                                value={this.state.description}
                                 onChange={this.handleChange} />
-                            {errors.amount && (<div className="invalid-feedback">{errors.amount}</div>)}
+                            {errors.description && (<div className="invalid-feedback">{errors.description}</div>)}
+                        </div>
+                        <div className="row">
+                            <DateGroup
+                                id="date"
+                                label="Date"
+                                type="date"
+                                name="date"
+                                onChange={this.handleChange}
+                                value={this.state.date}
+
+                            />
+                            <div className="form-group col-md-6">
+                                <label for="amount">Amount</label>
+                                <input
+                                    type="number"
+                                    name="amount"
+                                    className={classnames('form-control', {
+                                        'is-invalid': errors.amount
+                                    })}
+                                    id="amount"
+                                    value={this.state.amount}
+                                    onChange={this.handleChange} />
+                                {errors.amount && (<div className="invalid-feedback">{errors.amount}</div>)}
+                            </div>
+
+                        </div>
+                        <div className="form-group">
+                            <label for="debit_credit">Type</label>
+                            <select
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.debit_credit
+                                })}
+                                name="debit_credit"
+                                id="debit_credit"
+                                value={this.state.debit_credit}
+                                onChange={this.handleChange} >
+                                <option value="debit">Debit</option>
+                                <option value="credit">Credit</option>
+                            </select>
+                            {errors.debit_credit && (<div className="invalid-feedback">{errors.debit_credit}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <label for="Category">Category</label>
+                            <select
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.category
+                                })}
+                                id="Category"
+                                name="category"
+                                value={this.state.category}
+                                onChange={this.handleChange} >
+                                <option value="">Select category</option>
+                                <option value="food">Food</option>
+                                <option value="education">Education</option>
+                                <option value="bills">Bills</option>
+                                <option value="other">Other</option>
+                            </select>
+                            {errors.category && (<div className="invalid-feedback">{errors.category}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <label for="Account">Account</label>
+                            <select
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.account
+                                })}
+                                id="Account"
+                                name="account"
+                                value={this.state.account}
+                                onChange={this.handleChange} >
+                                <option value="">Select account</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
+                                <option value="cheque">Cheque</option>
+                            </select>
+                            {errors.account && (<div className="invalid-feedback">{errors.account}</div>)}
+                        </div>
+                        <div className="row justify-content-end">
+                            <button className="btn btn-lg btn-dark">Submit</button>
                         </div>
 
-                    </div>
-                    <div className="form-group">
-                        <label for="debit_credit">Type</label>
-                        <select
-                            className={classnames('form-control', {
-                                'is-invalid': errors.debit_credit
-                            })}
-                            name="debit_credit"
-                            id="debit_credit"
-                            value={this.state.debit_credit}
-                            onChange={this.handleChange} >
-                            <option value="debit">Debit</option>
-                            <option value="credit">Credit</option>
-                        </select>
-                        {errors.debit_credit && (<div className="invalid-feedback">{errors.debit_credit}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <label for="Category">Category</label>
-                        <select
-                            className={classnames('form-control', {
-                                'is-invalid': errors.category
-                            })}
-                            id="Category"
-                            name="category"
-                            value={this.state.category}
-                            onChange={this.handleChange} >
-                            <option value="">Select category</option>
-                            <option value="food">Food</option>
-                            <option value="education">Education</option>
-                            <option value="bills">Bills</option>
-                            <option value="other">Other</option>
-                        </select>
-                        {errors.category && (<div className="invalid-feedback">{errors.category}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <label for="Account">Account</label>
-                        <select
-                            className={classnames('form-control', {
-                                'is-invalid': errors.account
-                            })}
-                            id="Account"
-                            name="account"
-                            value={this.state.account}
-                            onChange={this.handleChange} >
-                            <option value="">Select account</option>
-                            <option value="cash">Cash</option>
-                            <option value="bank">Bank</option>
-                            <option value="cheque">Cheque</option>
-                        </select>
-                        {errors.account && (<div className="invalid-feedback">{errors.account}</div>)}
-                    </div>
-                    <div className="row justify-content-end">
-                    <button className="btn btn-lg btn-dark">Submit</button>
-                    </div>
-
-                </form>
-            </div >
+                    </form>
+                </div >
+            </div>
         )
     }
 }

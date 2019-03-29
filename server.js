@@ -10,6 +10,8 @@ const profile = require("./routes/api/profile");
 const expense = require("./routes/api/expense");
 const todo = require("./routes/api/todo");
 
+const path = require("path");
+
 const app = express();
 
 // Bodyparser middleware
@@ -19,6 +21,7 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
 
 //DB Config
 const db = require("./config/keys").mongoURI;
@@ -41,5 +44,7 @@ app.use("/api/journal", journal);
 app.use("/api/profile", profile);
 app.use("/api/expense", expense);
 app.use("/api/todo", todo);
+
+app.use(express.static(path.join(__dirname,"client/build")))
 
 app.listen(5000, () => console.log("server is running"));

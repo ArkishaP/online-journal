@@ -70,65 +70,67 @@ class EditEvent extends Component {
             return (<Spinner />)
         } else {
             return (
-                <div className="form-container">
-                    <h2 className="form-heading">Edit Event</h2>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="title">Title</label>
-                            <input
-                                type="text"
-                                name="title"
-                                className={classnames('form-control', {
-                                    'is-invalid': errors.title
-                                })}
-                                id="title"
-                                placeholder="Enter title"
-                                onChange={this.handleChange}
-                                value={this.state.title}
-                            />
-                            {errors.title && (<div className="invalid-feedback">{errors.title}</div>)}
-                        </div>
+                <div className="row justify-content-center">
+                    <div className="form-container col-md-6">
+                        <h3 className="form-heading">Edit Event</h3>
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="title">Title</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    className={classnames('form-control', {
+                                        'is-invalid': errors.title
+                                    })}
+                                    id="title"
+                                    placeholder="Enter title"
+                                    onChange={this.handleChange}
+                                    value={this.state.title}
+                                />
+                                {errors.title && (<div className="invalid-feedback">{errors.title}</div>)}
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="content">Description</label>
-                            <textarea
-                                name="description"
-                                className={classnames("form-control", {
-                                    "is-invalid": errors.description
-                                })}
-                                id="description"
-                                rows="3"
-                                placeholder="Enter description"
-                                onChange={this.handleChange}
-                                value={this.state.description}></textarea>
-                            {errors.description && (<div className="invalid-feedback">{errors.description}</div>)}
-                        </div>
-                        <div className="row justify-content-start">
-                            <DateGroup
-                                id="start"
-                                label="From: "
-                                type="datetime-local"
-                                name="start"
-                                onChange={this.handleChange}
-                                value={this.state.start}
+                            <div className="form-group">
+                                <label htmlFor="content">Description</label>
+                                <textarea
+                                    name="description"
+                                    className={classnames("form-control", {
+                                        "is-invalid": errors.description
+                                    })}
+                                    id="description"
+                                    rows="3"
+                                    placeholder="Enter description"
+                                    onChange={this.handleChange}
+                                    value={this.state.description}></textarea>
+                                {errors.description && (<div className="invalid-feedback">{errors.description}</div>)}
+                            </div>
+                            <div className="row justify-content-start">
+                                <DateGroup
+                                    id="start"
+                                    label="From: "
+                                    type="datetime-local"
+                                    name="start"
+                                    onChange={this.handleChange}
+                                    value={this.state.start}
 
-                            />
-                            <DateGroup
-                                id="end"
-                                label="To: "
-                                type="datetime-local"
-                                name="end"
-                                onChange={this.handleChange}
-                                value={this.state.end}
-                                errors={errors.end}
+                                />
+                                <DateGroup
+                                    id="end"
+                                    label="To: "
+                                    type="datetime-local"
+                                    name="end"
+                                    onChange={this.handleChange}
+                                    value={this.state.end}
+                                    errors={errors.end}
 
-                            />
-                        </div>
-                        <div className="row justify-content-center">
-                            <button type="submit" className="btn btn-lg btn-dark">Edit Event</button>
-                        </div>
-                    </form>
-                </div >
+                                />
+                            </div>
+                            <div className="row justify-content-center">
+                                <button type="submit" className="btn btn-lg btn-dark">Edit Event</button>
+                            </div>
+                        </form>
+                    </div >
+                </div>
             )
         }
     }

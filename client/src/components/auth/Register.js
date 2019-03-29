@@ -54,50 +54,52 @@ class Register extends Component {
     render() {
         const { errors } = this.state;
         return (
-            <div className="row justify-content-md-center mt-5">
-                <form noValidate onSubmit={this.handleSubmit} className="col-md-6">
-                    <h1 className="h3 mb-3 font-weight-normal text-center">Create a new Account</h1>
-                    <TextFieldGroup
-                        placeholder="Enter Name"
-                        name="name"
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                        error={errors.name}
-                        text="Name: "
-                    />
-                    <TextFieldGroup
-                        type="email"
-                        placeholder="Enter Email"
-                        name="email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        error={errors.email}
-                        text="Email Address: "
-                    />
-                    <TextFieldGroup
-                        type="password"
-                        placeholder="Enter Password"
-                        name="password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                        error={errors.password}
-                        text="Password: "
-                    />
-                    
-                    <TextFieldGroup
-                        type="password"
-                        placeholder="Confirm Password"
-                        name="password2"
-                        value={this.state.password2}
-                        onChange={this.handleChange}
-                        error={errors.password2}
-                        text="Re-enter password"
-                    />
-                    <div className="row justify-content-md-around mx-2">
-                        <button className="btn btn-primary col-md-4 mt-1">Register</button>
-                        <Link to="/login" className="btn btn-outline-secondary col-md-4 mt-1">Log In instead</Link>
-                    </div>
-                </form>
+            <div className="row justify-content-center mt-5">
+                <div className="form-container col-md-5">
+                    <h3 className="form-heading">Create a new Account</h3>
+                    <form noValidate onSubmit={this.handleSubmit}>
+                        <TextFieldGroup
+                            placeholder="Enter Name"
+                            name="name"
+                            value={this.state.name}
+                            onChange={this.handleChange}
+                            error={errors.name}
+                            text="Name: "
+                        />
+                        <TextFieldGroup
+                            type="email"
+                            placeholder="Enter Email"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            error={errors.email}
+                            text="Email Address: "
+                        />
+                        <TextFieldGroup
+                            type="password"
+                            placeholder="Enter Password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                            error={errors.password}
+                            text="Password: "
+                        />
+
+                        <TextFieldGroup
+                            type="password"
+                            placeholder="Confirm Password"
+                            name="password2"
+                            value={this.state.password2}
+                            onChange={this.handleChange}
+                            error={errors.password2}
+                            text="Re-enter password"
+                        />
+                        <div className="row justify-content-md-around mx-2">
+                            <button className="btn btn-lg btn-dark">Register</button>
+                            <Link to="/login" className="btn btn-lg btn-secondary">Log In</Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

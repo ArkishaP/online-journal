@@ -3,12 +3,32 @@ import { Link } from "react-router-dom"
 import moment from "moment"
 
 export default function Event(props) {
-  return (
-    <div className="form-container">
-      <Link to={"/calendar/view/" + props.id}><h2>{props.title}</h2></Link>
-      <h4 className="text-muted">Start: {moment(props.start).format('MMMM Do YYYY, h:mm:ss a')}</h4>
-      <h4 className="text-muted">End: {moment(props.end).format('MMMM Do YYYY, h:mm:ss a')}</h4>
-      <p>{props.description}</p>
-    </div>
-  )
+  if (props.year === moment(props.start).format("YYYY")
+    && props.month === moment(props.start).format("MM")) {
+    return (
+      <div className="row timeline m-4 p-4">
+        <div className="col">
+          <span className="timeline-day p-2">
+          {moment(props.start).format("DD")}
+          </span>
+          <span>
+          {moment(props.start).format("dddd")}
+          </span>
+        </div>
+
+        {props.allDay
+          ?<div className="col">
+          All Day
+        </div>
+        :<div className="col">
+        {moment(props.start).format("h:mm a")}
+      </div>}
+
+        <div className="col">
+          <Link to={"/calendar/view/" + props.id} className="h2">{props.title}</Link>
+        </div>
+      </div>
+    )
+  }
+  return null
 }

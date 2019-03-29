@@ -54,8 +54,9 @@ class AddEvent extends Component {
     render() {
         const { errors } = this.state
         return (
-            <div className="form-container">
-                <h2 className="form-heading">Create new Event</h2>
+            <div className="row justify-content-center">
+            <div className="form-container col-md-6">
+                <h3 className="form-heading">Create new Event</h3>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="title">Title</label>
@@ -113,6 +114,7 @@ class AddEvent extends Component {
                     </div>
                 </form>
             </div >
+            </div>
         )
     }
 }

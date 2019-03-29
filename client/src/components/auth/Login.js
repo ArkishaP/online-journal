@@ -50,8 +50,9 @@ class Login extends React.Component {
   render() {
     const { errors } = this.state
     return (
-      <div className="form-container container">
-        <h3 className="form-heading">Create a new Account</h3>
+      <div className="row justify-content-center">
+      <div className="form-container col-md-5 mt-5">
+        <h3 className="form-heading">Log In</h3>
         <form noValidate onSubmit={this.handleSubmit}>
           <TextFieldGroup
             type="email"
@@ -72,10 +73,11 @@ class Login extends React.Component {
             text="Password: "
           />
           <div className="row justify-content-md-around mx-2">
-            <button className="btn btn-primary col-md-4 mt-1">Log In</button>
-            <Link to="/register" className="btn btn-outline-secondary col-md-4 mt-1">Create new account</Link>
+            <button className="btn btn-lg btn-dark">Log In</button>
+            <Link to="/register" className="btn btn-lg btn-secondary">Create account</Link>
           </div>
         </form>
+      </div>
       </div>
     );
   }
