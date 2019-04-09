@@ -14,6 +14,8 @@ import Landing from "./components/layout/Landing"
 import Register from "./components/auth/Register"
 import Login from "./components/auth/Login"
 
+import NotFound from "./components/not-found/NotFound"
+
 import Calendar from "./components/calendar-component/Calendar"
 import AddEvent from "./components/calendar-component/AddEvent"
 import EditEvent from "./components/calendar-component/EditEvent"
@@ -64,63 +66,36 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
+
+              <Switch>
             <Route exact path="/" component={Landing} />
-            <div className="container-fluid">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <Switch>
                 <PrivateRoute exact path="/dashboard" component={Calendar} />
-              </Switch>
-              <Switch>
+
                 <PrivateRoute exact path="/calendar" component={Calendar} />
-              </Switch>
-              <Switch>
+
                 <PrivateRoute exact path="/calendar/new" component={AddEvent} />
-              </Switch>
-              <Switch>
+
                 <PrivateRoute exact path="/calendar/edit/:event_id" component={EditEvent} />
-              </Switch>
-              <Switch>
+
                 <PrivateRoute exact path="/calendar/view/:event_id" component={ViewEvent} />
-              </Switch>
-
-              <Switch>
                 <PrivateRoute exact path="/journal" component={Journal} />
-              </Switch>
-              <Switch>
+
                 <PrivateRoute exact path="/journal/view/:post_id" component={ViewPost} />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/journal/edit/:post_id" component={EditPost} />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/journal/new" component={AddPost} />
-              </Switch>
-
-              <Switch>
                 <PrivateRoute exact path="/timeline" component={Timeline} />
-              </Switch>
-
-              <Switch>
                 <PrivateRoute exact path="/expense-tracker" component={Expense} />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/expense-tracker/new" component={AddTransaction} />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/expense-tracker/view/:record_id" component={ViewRecord} />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/expense-tracker/edit/:record_id" component={EditRecord} />
-              </Switch>
-
-              
-              <Switch>
                 <PrivateRoute exact path="/account" component={Account} />
-              </Switch>
+                <Route exact path="/not-found" component={NotFound} />
+                <Route exact path="*" component={NotFound} />
 
+              </Switch>
             </div>
-          </div>
         </Router>
       </Provider>
     )

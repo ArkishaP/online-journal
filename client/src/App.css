@@ -3,6 +3,7 @@ body {
   /* background-color: #E8E4E7; */
   padding-bottom: 2em;
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: none;
   font-family: 'Noto Serif', serif;
   /* Firefox */

@@ -14,6 +14,11 @@ class ViewEvent extends Component {
     componentDidMount() {
         this.props.getEvent(this.props.match.params.event_id);
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.event.event === null && this.props.event.loading) {
+          this.props.history.push('/not-found');
+        }
+      }
     handleDelete() {
         this.props.deleteEvent(this.props.event.event._id, this.props.history)
     }

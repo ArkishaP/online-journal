@@ -4,13 +4,16 @@ import PropTypes from "prop-types"
 import Record from "./Record"
 import { getRecords } from "../../actions/expenseActions"
 import Spinner from "../common/Spinner"
+import SelectMonthList from "../common/SelectMonthList"
+import SelectYearList from "../common/SelectYearList"
 import moment from "moment"
 
 class RecordsView extends Component {
     constructor() {
         super()
         this.state = {
-            month: moment().format("MM")
+            month: moment().format("MM"),
+            year: moment().format("YYYY")
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -36,12 +39,12 @@ class RecordsView extends Component {
         } else {
             recordContent = (
                 <table class="table table-bordered text-center">
-                    <thead>
+                    <thead style={{backgroundColor: "#351431", color: "white"}}>
                         <tr>
                             <th scope="col">Date</th>
                             <th scope="col">Description</th>
-                            <th scope="col">Account</th>
-                            <th scope="col">Category</th>
+                            {/* <th scope="col">Account</th>
+                            <th scope="col">Category</th> */}
                             <th scope="col"></th>
                             <th scope="col">Amount</th>
                         </tr>
@@ -49,32 +52,29 @@ class RecordsView extends Component {
                     <tbody>
                         {
                             records.map(record => {
-                                if(moment(record.date).format("MM")===this.state.month){
-                                if (record.debit_credit === "debit") {
-                                    balance = balance - record.amount
-                                } else {
-                                    balance = balance + record.amount
+                                if (moment(record.date).format("MM") === this.state.month) {
+                                    if (record.debit_credit === "debit") {
+                                        balance = balance - record.amount
+                                    } else {
+                                        balance = balance + record.amount
+                                    }
+                                    return (
+                                        <tr>
+                                            <td>{moment(record.date).format('DD')}</td>
+                                            <td>{record.description}</td>
+                                            {/* <td>{record.account}</td>
+                                            <td>{record.category}</td> */}
+                                            <td>{record.debit_credit === "debit" ?
+                                                <i className="fas fa-minus"></i> :
+                                                <i className="fas fa-plus"></i>}</td>
+                                            <td>{record.amount}</td>
+                                        </tr>
+                                    )
                                 }
-                                return (
-                                    <tr>
-                                        <td>{moment(record.date).format('DD-MM-YY')}</td>
-                                        <td>{record.description}</td>
-                                        <td>{record.account}</td>
-                                        <td>{record.category}</td>
-                                        <td>{record.debit_credit === "debit" ?
-                                            <i className="fas fa-minus"></i> :
-                                            <i className="fas fa-plus"></i>}</td>
-                                        <td>{record.amount}</td>
-                                    </tr>
-                                )
-                            }}
+                            }
                             )}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr style={{backgroundColor: "#D3C4D1", fontWeight: "bold", color: "#351431"}}>
+                            <td colSpan="3" className="text-right">Balance</td>
                             <td>{balance}</td>
                         </tr>
                     </tbody>
@@ -84,21 +84,21 @@ class RecordsView extends Component {
         }
         return (
             <div>
-                <select name="month" value={this.state.month} onChange={this.handleChange} className="btn btn-md btn-dark float-right">
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
+                <div className="row justify-content-end m-2">
+                <SelectYearList
+                    value={this.state.year}
+                    name="year"
+                    onChange={this.handleChange}
+                />
+                <SelectMonthList
+                    value={this.state.month}
+                    name="month"
+                    onChange={this.handleChange}
+                />
+                </div>
+                <div className="row justify-content-center m-5">
                 {recordContent}
+                </div>
             </div>
         )
     }

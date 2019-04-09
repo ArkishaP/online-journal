@@ -47,6 +47,7 @@ class EditRecord extends Component {
         this.props.unsetRecordLoading()
     }
     componentWillReceiveProps(newProps) {
+        
         if (newProps.errors) {
             this.setState({ errors: newProps.errors });
         }

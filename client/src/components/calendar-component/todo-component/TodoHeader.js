@@ -30,6 +30,9 @@ class TodoHeader extends Component {
             content: this.state.content
         }
         this.props.addItem(newItem)
+        this.setState({
+            content: ""
+        })
     }
     render() {
         const { errors } = this.state

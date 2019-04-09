@@ -2,33 +2,19 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import moment from "moment"
 
-export default function Event(props) {
-  if (props.year === moment(props.start).format("YYYY")
-    && props.month === moment(props.start).format("MM")) {
-    return (
-      <div className="row timeline m-4 p-4">
-        <div className="col">
-          <span className="timeline-day p-2">
-          {moment(props.start).format("DD")}
-          </span>
-          <span>
-          {moment(props.start).format("dddd")}
-          </span>
-        </div>
+function Event({ time, text, id, start, year, month }) {
 
-        {props.allDay
-          ?<div className="col">
-          All Day
-        </div>
-        :<div className="col">
-        {moment(props.start).format("h:mm a")}
-      </div>}
-
-        <div className="col">
-          <Link to={"/calendar/view/" + props.id} className="h2">{props.title}</Link>
-        </div>
+  return (
+    <li>
+      <i className="fa" />
+      <div className="time-line-item">
+        <span className="time">
+          <i className="fa fa-clock-o" />
+          {time}
+        </span>
+        <Link to={"/calendar/view/" + id} className="time-line-header">{text}</Link>
       </div>
-    )
-  }
-  return null
+    </li>
+  );
 }
+export default Event

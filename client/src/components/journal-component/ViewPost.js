@@ -14,6 +14,11 @@ class ViewPost extends Component {
     componentDidMount() {
         this.props.getPost(this.props.match.params.post_id)
     }
+    componentWillReceiveProps(nextProps){
+        if (nextProps.post.post === null && this.props.post.loading) {
+            this.props.history.push('/not-found');
+          }
+    }
     handleDelete() {
         this.props.deletePost(this.props.post.post._id, this.props.history)
     }

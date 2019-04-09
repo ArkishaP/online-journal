@@ -5,7 +5,10 @@ import Event from "./Event"
 import { getEvents } from "../../actions/eventActions"
 import Spinner from "../common/Spinner"
 import moment from "moment"
+import SelectMonthList from "../common/SelectMonthList"
+import SelectYearList from "../common/SelectYearList"
 
+import "./style.css"
 
 class Timeline extends Component {
     constructor() {
@@ -14,8 +17,8 @@ class Timeline extends Component {
             year: moment().format("YYYY"),
             month: moment().format("MM")
         }
-        this.getYearList = this.getYearList.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.getFormattedData = this.getFormattedData.bind(this)
     }
     componentDidMount() {
         this.props.getEvents()
@@ -26,87 +29,86 @@ class Timeline extends Component {
                 [e.target.name]: e.target.value
             })
     }
-    getYearList() {
-        const year = new Date().getFullYear();
-        return (
-            Array.from(new Array(50), (v, i) =>
-                <option key={i} value={year + i}>{year + i}</option>
-            )
-        );
-    };
+    getFormattedData(events) {
+        const activities = {};
+        events.forEach(({ start, end, title, _id }, index) => {
+            const date = moment(start);
+            const dateStr = date.format("DD MMM YYYY");
+            const list = activities[dateStr] || [];
+            list.push({
+                time: date.format("hh:mm"),
+                date: moment(start).format("L"),
+                title,
+                id: _id,
+                key: index,
+            });
+            activities[dateStr] = list;
+            let initstart = start
+            while (moment(start).format("L") !== moment(end).format("L")) {
+                start = moment(start).add(1, 'd').toString();
+                const date = moment(start)
+                const dateStr = date.format("DD MMM YYYY");
+                const list = activities[dateStr] || [];
+                list.push({
+                    time: date.format("hh:mm"),
+                    title,
+                    id: _id,
+                    key: index,
+                });
+                activities[dateStr] = list;
+            }
+            start = initstart
+
+        });
+        return activities;
+    }
 
     render() {
         const { events, loading } = this.props.event;
+
         let eventContent
 
-        let toreturn = []
-
-        let eventComponents = events
-            .map(event => {
-                toreturn.push(
-                    <Event
-                        key={event._id}
-                        title={event.title}
-                        description={event.description}
-                        start={event.start}
-                        end={event.end}
-                        id={event._id}
-                        year={this.state.year}
-                        month={this.state.month} />
-                )
-                let i = 0
-                let initstart = event.start
-                while (moment(event.start).format("LL") !== moment(event.end).format("LL")) {
-                    event.start = moment(event.start).add(1, 'd').toString();
-                    toreturn.push(
-                        <Event
-                            allDay={true}
-                            key={event._id + i}
-                            title={event.title}
-                            description={event.description}
-                            start={event.start}
-                            end={event.end}
-                            id={event._id}
-                            year={this.state.year}
-                            month={this.state.month} />
-                    )
-                    i++;
-                }
-                event.start = initstart
-            })
-
-        toreturn = toreturn.sort((a, b) => new moment(a.props.start).format('YYYYMMDD') - new moment(b.props.start).format('YYYYMMDD'))
-
-
+        const activities = this.getFormattedData(events)
+        const dates = Object.keys(activities)
+        dates.sort()
 
         if (events === null || loading) {
             eventContent = <Spinner />
         } else {
             eventContent = (
-                <div>
-                    {toreturn}
+                <div className="time-line-ctnr m-4 p-4">
+                    {dates.map(d => {
+                        if (this.state.year === moment(d).format("YYYY")
+                            && this.state.month === moment(d).format("MM")) {
+                            return (
+                                <ul className="time-line" key={d}>
+                                    <li className="time-label">
+                                        <span>{d}</span>
+                                    </li>
+                                    {activities[d].map(({ time, title, key, date, id }) => (
+                                        <Event time={time} text={title} key={key} id={id} year={this.state.year}
+                                            month={this.state.month} start={date} />
+                                    ))}
+                                </ul>)
+
+                        }
+                    })}
                 </div>
+
             )
         }
         return (
             <div>
-                <select onChange={this.handleChange} value={this.state.year} name="year" className="btn btn-md btn-dark mr-2">
-                    {this.getYearList()}
-                </select>
-                <select name="month" value={this.state.month} onChange={this.handleChange} className="btn btn-md btn-dark">
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
+                <SelectYearList
+                    name="year"
+                    onChange={this.handleChange}
+                    value={this.state.year}
+                />
+                <SelectMonthList
+                    name="month"
+                    onChange={this.handleChange}
+                    value={this.state.month}
+                />
                 {eventContent}
             </div>
         )

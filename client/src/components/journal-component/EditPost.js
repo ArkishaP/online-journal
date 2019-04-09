@@ -41,7 +41,11 @@ class EditPost extends Component {
             )
         this.props.unsetPostLoading()
     }
+
     componentWillReceiveProps(newProps) {
+        if (newProps.post.post === null && !this.props.post.loading) {
+            this.props.history.push('/not-found');
+        }
         if (newProps.errors) {
             this.setState({ errors: newProps.errors });
         }
@@ -87,14 +91,14 @@ class EditPost extends Component {
                                 {errors.title && (<div className="invalid-feedback">{errors.title}</div>)}
                             </div>
                             <DateGroup
-                            id="post_date"
-                            label="Date"
-                            type="datetime-local"
-                            name="post_date"
-                            onChange={this.handleChange}
-                            value={this.state.post_date}
+                                id="post_date"
+                                label="Date"
+                                type="datetime-local"
+                                name="post_date"
+                                onChange={this.handleChange}
+                                value={this.state.post_date}
 
-                        />
+                            />
                         </div>
                         <div className="form-group">
                             <label htmlFor="content">Content</label>
@@ -111,8 +115,8 @@ class EditPost extends Component {
                             {errors.content && (<div className="invalid-feedback">{errors.content}</div>)}
                         </div>
                         <div className="row justify-content-end">
-                        <button type="submit" className="btn btn-lg btn-dark">Change</button>
-                    </div>
+                            <button type="submit" className="btn btn-lg btn-dark">Change</button>
+                        </div>
                     </form>
                 </div>
             )

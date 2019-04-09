@@ -44,6 +44,9 @@ class EditEvent extends Component {
         this.props.unsetEventLoading()
     }
     componentWillReceiveProps(newProps) {
+        if (newProps.event.event === null && !this.props.event.loading) {
+            this.props.history.push('/not-found');
+          }
         if (newProps.errors) {
             this.setState({ errors: newProps.errors });
         }

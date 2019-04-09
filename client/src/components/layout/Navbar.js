@@ -35,8 +35,8 @@ class Navbar extends React.Component {
                     </a>
                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <div className="triangle"></div>
-                        <Link to="/account" className="dropdown-item">Account</Link>
-                        <Link to="/contact" className="dropdown-item">Contact Us</Link>
+                        {/* <Link to="/account" className="dropdown-item">Account</Link> */}
+                        {/* <Link to="/contact" className="dropdown-item">Contact Us</Link> */}
                         {/* eslint-disable-next-line */}
                         <a href="#" onClick={this.onLogoutClick.bind(this)} className="dropdown-item">
                             {/* <img src={user.avatar} alt={user.name} style={{width: "25px", marginRight: "5px"}}/> */}
