@@ -50,7 +50,7 @@
 .time-line-ctnr .time-line > li > .time-line-item .time {
   font-size: 12px;
   color: #999;
-  float: right;
+  /* float: center; */
 }
 .time-line-ctnr .time-line > li > .time-line-item .time-line-header {
   margin: 0;
@@ -67,7 +67,11 @@
   background: #ecf0f1;
   left: 28px;
   top: 9px;
-  border: 2px solid #3498db;
+  border: 2px solid #775273;
   display: inline-block;
   box-sizing: border-box;
+}
+
+.not-found{
+  color: #775273;
 }
