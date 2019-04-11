@@ -47,7 +47,7 @@ app.use("/api/todo", todo);
 
 // Page not found
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './index.html'));
+  res.sendFile(path.join(__dirname, './client/public/index.html'));
   });
 
 app.use(express.static(path.join(__dirname,"client/build")))
